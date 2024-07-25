@@ -1,0 +1,26 @@
+@BlogPostApi_HostAddress = http://localhost:5129/api
+
+GET {{BlogPostApi_HostAddress}}/posts/
+Accept: application/json
+
+### 
+POST {{BlogPostApi_HostAddress}}/posts/
+Accept: application/json
+
+{
+  "title":"Test Title",
+  "content":"Lorem ipsum dolor sit amet"
+}
+
+### 
+GET {{BlogPostApi_HostAddress}}/posts/1
+Accept: application/json
+
+### 
+POST {{BlogPostApi_HostAddress}}/posts/1/comment
+Accept: application/json
+
+{
+  "username":"Test name",
+  "content":"Lorem ipsum"
+}
