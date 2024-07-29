@@ -1,6 +1,6 @@
 ﻿namespace BlogPostApplication.Domain
 {
-    internal class Comment
+    public class Comment
     {
         public int Id { get; set; }
         public required string UserName { get; set; }

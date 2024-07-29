@@ -9,7 +9,6 @@
   <ItemGroup>
     <Folder Include="Features\ListPosts\" />
     <Folder Include="Features\AddComment\" />
-    <Folder Include="Features\GetPost\" />
   </ItemGroup>
 
   <ItemGroup>

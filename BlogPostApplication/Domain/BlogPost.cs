@@ -1,6 +1,6 @@
 ﻿namespace BlogPostApplication.Domain
 {
-    internal class BlogPost
+    public class BlogPost
     {
         public int Id { get; set; }
         public required string Title { get; set; }

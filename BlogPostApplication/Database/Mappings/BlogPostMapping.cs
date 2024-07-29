@@ -8,6 +8,8 @@ namespace BlogPostApplication.Database.Mappings
     {
         public void Configure(EntityTypeBuilder<BlogPost> builder)
         {
+            builder.ToTable(nameof(BlogPost));
+
             builder.HasKey(bp => bp.Id);
 
             builder.Property(bp => bp.Title)

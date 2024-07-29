@@ -1,4 +1,5 @@
 ﻿using BlogPostApplication.Database.Mappings;
+using BlogPostApplication.Domain;
 using Microsoft.EntityFrameworkCore;
 
 namespace BlogPostApplication.Database
@@ -10,5 +11,7 @@ namespace BlogPostApplication.Database
             modelBuilder.ApplyConfiguration(new BlogPostMapping());
             modelBuilder.ApplyConfiguration(new CommentMapping());
         }
+
+        public DbSet<BlogPost> BlogPosts { get; protected set; }
     }
 }

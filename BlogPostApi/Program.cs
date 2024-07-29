@@ -1,6 +1,7 @@
 using BlogPostApplication;
 using BlogPostApplication.Database;
 using BlogPostApplication.Features.AddBlogPost;
+using BlogPostApplication.Features.GetPost;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -34,9 +35,9 @@ app.MapGet("/api/posts", () =>
 .WithDescription("Get a list of posts");
 
 
-app.MapGet("/api/posts/{id}", (int id) =>
+app.MapGet("/api/posts/{id}", async (int id, [FromServices]ISender sender, CancellationToken cancellationToken) =>
 {
-    throw new NotImplementedException();
+    return await sender.Send(new GetBlogPostQuery { Id = id }, cancellationToken);
 })
 .WithName("GetPost")
 .WithOpenApi()
