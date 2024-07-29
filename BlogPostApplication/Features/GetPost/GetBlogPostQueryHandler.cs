@@ -14,7 +14,7 @@ namespace BlogPostApplication.Features.GetPost
                 .Include(x => x.Comments)
                 .FirstOrDefaultAsync(x => x.Id == request.Id, cancellationToken);
 
-            if(blogPost == null)
+            if(blogPost is null)
             {
                 throw new NotFoundException(nameof(BlogPost), request.Id);
             }

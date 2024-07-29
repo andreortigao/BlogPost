@@ -1,6 +1,7 @@
 ﻿using BlogPostApplication.Database;
 using BlogPostApplication.Domain;
 using BlogPostApplication.Features.AddBlogPost;
+using BlogPostApplication.Features.AddComment;
 using BlogPostApplication.Features.GetPost;
 using BlogPostApplication.Features.ListPosts;
 using Bogus;
@@ -8,6 +9,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
 using System.Net;
 using System.Text;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 namespace BlogPostApi.IntegrationTests
 {
@@ -82,19 +84,44 @@ namespace BlogPostApi.IntegrationTests
             Assert.Equal(Enumerable.Range(5, 10), blogPostModels.Select(x => x.CommentCount));
         }
 
+        [Fact]
+        public async Task CanCreateComment()
+        {
+            var blogPost = GeneratePost(5);
+
+            using (var scope = _factory.Services.CreateScope())
+            {
+                var dbContext = scope.ServiceProvider.GetRequiredService<BlogPostDbContext>();
+
+                dbContext.BlogPosts.Add(blogPost);
+                await dbContext.SaveChangesAsync();
+            }
+            var commentFake = _commentFaker.Generate();
+
+            var command = new AddCommentModel
+            {
+                UserName = commentFake.UserName,
+                Content = commentFake.Content
+            };
+
+            var response = await _client.PostAsync($"{_url}/{blogPost.Id}/comments",
+                new StringContent(JsonConvert.SerializeObject(command), Encoding.UTF8, "application/json"));
+            Assert.Equal(HttpStatusCode.Created, response.StatusCode);
+        }
+
         private static BlogPost GeneratePost(int? commentCount = null)
         {
-            var commentFaker = new Faker<Comment>()
-                .RuleFor(x => x.UserName, f => f.Person.UserName)
-                .RuleFor(x => x.Content, f => f.Rant.Review());
-
             var blogPostFaker = new Faker<BlogPost>()
                 .RuleFor(x => x.Title, f => f.Lorem.Sentence())
                 .RuleFor(x => x.Content, f => f.Lorem.Text())
-                .RuleFor(x => x.Comments, f => commentFaker.Generate(commentCount ?? f.Random.Number(1, 10)));
+                .RuleFor(x => x.Comments, f => _commentFaker.Generate(commentCount ?? f.Random.Number(1, 10)));
 
             return blogPostFaker.Generate();
         }
+
+        private static readonly Faker<Comment> _commentFaker = new Faker<Comment>()
+                .RuleFor(x => x.UserName, f => f.Person.UserName)
+                .RuleFor(x => x.Content, f => f.Rant.Review());
 
         public async Task InitializeAsync()
         {

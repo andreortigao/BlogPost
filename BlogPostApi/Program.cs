@@ -9,6 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using FluentValidation;
 using BlogPostApplication.Behaviors;
 using BlogPostApi;
+using BlogPostApplication.Features.AddComment;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -63,9 +64,11 @@ app.MapPost("/api/posts/", async ([FromBody]AddBlogPostCommand command, [FromSer
 .WithOpenApi()
 .WithDescription("Create a new post");
 
-app.MapPost("/api/posts/{id}/comments", (int id) =>
+app.MapPost("/api/posts/{id}/comments", async (int id, [FromBody]AddCommentModel model, [FromServices]ISender sender, CancellationToken cancellationToken) =>
 {
-    throw new NotImplementedException();
+    var command = new AddCommentCommand { Model = model, BlogPostId = id };
+    await sender.Send(command, cancellationToken);
+    return Results.Created();
 })
 .WithName("AddComment")
 .WithOpenApi()
