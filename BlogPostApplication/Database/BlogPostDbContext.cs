@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace BlogPostApplication.Database
 {
-    public class BlogPostDbContext : DbContext
+    public class BlogPostDbContext(DbContextOptions<BlogPostDbContext> options) : DbContext(options)
     {
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

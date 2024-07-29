@@ -15,6 +15,7 @@ namespace BlogPostApplication.Database.Mappings
                 .HasMaxLength(100);
 
             builder.Property(bp => bp.Content)
+                .HasColumnType("nvarchar(max)")
                 .IsRequired();
 
             builder.HasMany(bp => bp.Comments)

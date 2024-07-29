@@ -9,8 +9,12 @@ namespace BlogPostApplication.Database.Mappings
         public void Configure(EntityTypeBuilder<Comment> builder)
         {
             builder.HasKey(c => c.Id);
+            builder.Property(x => x.UserName)
+                .HasMaxLength(50)
+                .IsRequired();
 
             builder.Property(c => c.Content)
+                .HasMaxLength(500)
                 .IsRequired();
 
             builder.HasOne(c => c.BlogPost)

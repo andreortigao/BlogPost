@@ -5,6 +5,7 @@ Accept: application/json
 
 ### 
 POST {{BlogPostApi_HostAddress}}/posts/
+Content-Type: application/json
 Accept: application/json
 
 {

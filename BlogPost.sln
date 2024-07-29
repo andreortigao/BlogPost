@@ -5,9 +5,9 @@ VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlogPostApi", "BlogPostApi\BlogPostApi.csproj", "{8E96DFE1-6305-4B3C-BB4A-A2E5E8B3B256}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlogPostApplication", "BlogPostApplication\BlogPostApplication.csproj", "{23144EEA-FF92-4E24-8FCC-9409D08D7B43}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlogPostApplication", "BlogPostApplication\BlogPostApplication.csproj", "{23144EEA-FF92-4E24-8FCC-9409D08D7B43}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlogPostApplication.IntegrationTests", "BlogPostApplication.IntegrationTests\BlogPostApplication.IntegrationTests.csproj", "{F6C54528-3C5E-46EE-BCCF-48E272E4E65E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlogPostApi.IntegrationTests", "BlogPostApi.IntegrationTests\BlogPostApi.IntegrationTests.csproj", "{F6C54528-3C5E-46EE-BCCF-48E272E4E65E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
