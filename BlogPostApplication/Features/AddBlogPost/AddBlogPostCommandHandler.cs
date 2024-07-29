@@ -4,7 +4,7 @@ using MediatR;
 
 namespace BlogPostApplication.Features.AddBlogPost
 {
-    public class AddPostCommandHandler(BlogPostDbContext dbContext) : IRequestHandler<AddBlogPostCommand, int>
+    public class AddBlogPostCommandHandler(BlogPostDbContext dbContext) : IRequestHandler<AddBlogPostCommand, int>
     {
         public async Task<int> Handle(AddBlogPostCommand request, CancellationToken cancellationToken)
         {

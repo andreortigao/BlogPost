@@ -24,29 +24,24 @@ namespace BlogPostApi.IntegrationTests
             {
                 await _msSqlContainer.StartAsync();
 
+                var serviceProvider = new ServiceCollection()
+                .AddEntityFrameworkSqlServer()
+                .BuildServiceProvider();
+
+                // Remove the existing DbContext registration
                 var descriptor = services.SingleOrDefault(
                     d => d.ServiceType == typeof(DbContextOptions<BlogPostDbContext>));
 
-                if (descriptor != null)
+                if (descriptor is not null && !services.IsReadOnly)
                 {
                     services.Remove(descriptor);
-                }
 
-                var connectionString = _msSqlContainer.GetConnectionString();
+                    var connectionString = _msSqlContainer.GetConnectionString();
 
-                services.AddDbContext<BlogPostDbContext>(options =>
-                {
-                    options.UseSqlServer(connectionString);
-                });
-
-                var sp = services.BuildServiceProvider();
-
-                using (var scope = sp.CreateScope())
-                {
-                    var scopedServices = scope.ServiceProvider;
-                    var db = scopedServices.GetRequiredService<BlogPostDbContext>();
-                    db.Database.EnsureDeleted();
-                    db.Database.EnsureCreated();
+                    services.AddDbContext<BlogPostDbContext>(options =>
+                    {
+                        options.UseSqlServer(connectionString);
+                    });
                 }
             });
         }
@@ -56,42 +51,5 @@ namespace BlogPostApi.IntegrationTests
             await _msSqlContainer.DisposeAsync();
             await base.DisposeAsync();
         }
-
-        //protected override void ConfigureWebHost(IWebHostBuilder builder)
-        //{
-        //    builder.ConfigureServices(services =>
-        //    {
-        //        var descriptor = services.SingleOrDefault(
-        //            d => d.ServiceType == typeof(DbContextOptions<BlogPostDbContext>));
-
-        //        if (descriptor != null)
-        //        {
-        //            services.Remove(descriptor);
-        //        }
-
-        //        var connectionString = new SqlConnectionStringBuilder
-        //        {
-        //            DataSource = "localhost,1434",
-        //            UserID = "sa",
-        //            Password = "Your_password123",
-        //            InitialCatalog = "TestDatabase"
-        //        }.ConnectionString;
-
-        //        services.AddDbContext<BlogContext>(options =>
-        //        {
-        //            options.UseSqlServer(connectionString);
-        //        });
-
-        //        var sp = services.BuildServiceProvider();
-
-        //        using (var scope = sp.CreateScope())
-        //        {
-        //            var scopedServices = scope.ServiceProvider;
-        //            var db = scopedServices.GetRequiredService<BlogContext>();
-        //            db.Database.EnsureDeleted();
-        //            db.Database.EnsureCreated();
-        //        }
-        //    });
-        //}
     }
 }

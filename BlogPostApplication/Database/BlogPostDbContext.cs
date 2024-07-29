@@ -13,5 +13,6 @@ namespace BlogPostApplication.Database
         }
 
         public DbSet<BlogPost> BlogPosts { get; protected set; }
+        public DbSet<Comment> Comments { get; protected set; }
     }
 }

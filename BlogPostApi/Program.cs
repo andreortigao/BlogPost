@@ -2,6 +2,7 @@ using BlogPostApplication;
 using BlogPostApplication.Database;
 using BlogPostApplication.Features.AddBlogPost;
 using BlogPostApplication.Features.GetPost;
+using BlogPostApplication.Features.ListPosts;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -26,9 +27,9 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-app.MapGet("/api/posts", () =>
+app.MapGet("/api/posts", async ([FromServices]ISender sender) =>
 {
-    throw new NotImplementedException();
+    return await sender.Send(new ListBlogPostsQuery());
 })
 .WithName("ListPosts")
 .WithOpenApi()
