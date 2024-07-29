@@ -7,7 +7,7 @@ using Testcontainers.MsSql;
 
 namespace BlogPostApi.IntegrationTests
 {
-    public class BlogPostApplicationFactory<TStartup> : WebApplicationFactory<TStartup> where TStartup : class
+    public sealed class BlogPostApplicationFactory<TStartup> : WebApplicationFactory<TStartup> where TStartup : class
     {
         private readonly MsSqlContainer _msSqlContainer;
 

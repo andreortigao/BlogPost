@@ -1,4 +1,6 @@
 ﻿using BlogPostApplication.Database;
+using BlogPostApplication.Domain;
+using BlogPostApplication.Exceptions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
@@ -14,7 +16,7 @@ namespace BlogPostApplication.Features.GetPost
 
             if(blogPost == null)
             {
-                return null!;
+                throw new NotFoundException(nameof(BlogPost), request.Id);
             }
 
             return new BlogPostDetailModel

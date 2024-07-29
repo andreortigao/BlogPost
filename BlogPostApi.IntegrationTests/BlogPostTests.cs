@@ -11,17 +11,11 @@ using System.Text;
 
 namespace BlogPostApi.IntegrationTests
 {
-    public class BlogPostTests : IClassFixture<BlogPostApplicationFactory<Program>>, IAsyncLifetime
+    public class BlogPostTests(BlogPostApplicationFactory<Program> factory) : IClassFixture<BlogPostApplicationFactory<Program>>, IAsyncLifetime
     {
         const string _url = "api/posts";
-        private readonly BlogPostApplicationFactory<Program> _factory;
-        private readonly HttpClient _client;
-
-        public BlogPostTests(BlogPostApplicationFactory<Program> factory)
-        {
-            _factory = factory;
-             _client = factory.CreateClient();
-        }
+        private readonly BlogPostApplicationFactory<Program> _factory = factory;
+        private readonly HttpClient _client = factory.CreateClient();
 
         public static IEnumerable<object[]> AddBlogPostCommandGenerator()
         {
